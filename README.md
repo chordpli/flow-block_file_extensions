@@ -12,3 +12,6 @@
 - 빌드 : Gradle 7.6
 - DB : AWS RDS
 - Devops : AWS EC2, AWS S3, Docker
+
+## ERD
+![erd](https://user-images.githubusercontent.com/101695482/220024914-cd4614b7-f1d3-4823-a827-4d971601083b.png)
