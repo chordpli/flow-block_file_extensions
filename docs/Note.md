@@ -1,8 +1,5 @@
 # ERD
-- 파일
-- 파일 확장자
-- 파일 확장자 제한
-
+![erd](https://user-images.githubusercontent.com/101695482/220024914-cd4614b7-f1d3-4823-a827-4d971601083b.png)
 
 ## 개발 순서
 
