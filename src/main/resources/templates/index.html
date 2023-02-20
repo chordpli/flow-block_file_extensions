@@ -161,6 +161,10 @@
         ".custom-extension-item span:first-child");
     const forbiddenNames = Array.from(forbiddenExtensions).map(element => element.innerText);
 
+    $('input:checkbox[name=forbidden]').each(function () {
+      forbiddenNames.push($(this).val());
+    });
+
     if (forbiddenNames.includes(newType)) {
       alert(`${newType} 확장자는 이미 등록되어 있습니다.`);
     } else if (forbiddenNames.length >= 200) {
