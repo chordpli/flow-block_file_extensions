@@ -12,6 +12,27 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   thymeleaf:
+    cache: false
+    check-template-location: true
     prefix: classpath:/templates/
     suffix: .html
-    cache: false
+    enabled: true
+
+# multipart 설정
+spring.servlet.multipart.max-file-size: 3MB
+spring.servlet.multipart.max-request-size: 3MB
+
+# aws 설정
+# 사용할 S3 bucket region 입력
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    s3:
+      bucket: thisisbucket
+
+iamAccessKey: iamaccesskey
+iamSecretKey: iamsecretkey
+
