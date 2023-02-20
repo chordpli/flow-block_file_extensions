@@ -11,7 +11,8 @@
 </head>
 <body>
 <div class="container">
-  <form method="post" id="upload-form" th:action="@{/}" th:object="${request}" enctype="multipart/form-data">
+  <form method="post" id="upload-form" th:action="@{/}" th:object="${request}"
+        enctype="multipart/form-data">
     <div class="first-box"> <!-- 첫번째줄, column -->
       <div class="fixed-extension-title">
         고정 확장자
@@ -75,8 +76,10 @@
         <div class="custom-extension-items">
           <div class="custom-extension-item" th:each="type:${forbiddenTypes}"
                th:id="|custom-${type.getForbiddenName()}|">
-            <span class="custom-extension-title" th:name="forbidden-name" th:text="${type.getForbiddenName()}"></span>
-            <span class="custom-extension-delete-button" th:data-name="${type.getForbiddenName()}">X</span>
+            <span class="custom-extension-title" th:name="forbidden-name"
+                  th:text="${type.getForbiddenName()}"></span>
+            <span class="custom-extension-delete-button"
+                  th:data-name="${type.getForbiddenName()}">X</span>
           </div>
         </div>
       </div>
@@ -97,14 +100,22 @@
       return false;
     }
 
+    let maxSize = 3 * 1024 * 1024;
+    let fileSize = file.size;
+
+    if (fileSize > maxSize) {
+      alert("첨부파일 사이즈는 3MB 이내로 등록 가능합니다.");
+      event.preventDefault();
+    }
+
     const fileName = file.name;
     const fileExtension = fileName.split('.').pop();
 
     const forbiddenExtensions = [];
-    $('input:checkbox[name=forbidden]:checked').each(function() {
+    $('input:checkbox[name=forbidden]:checked').each(function () {
       forbiddenExtensions.push($(this).val());
     });
-    $('span[name=forbidden-name]').each(function() {
+    $('span[name=forbidden-name]').each(function () {
       forbiddenExtensions.push($(this).text());
     });
 
@@ -146,7 +157,8 @@
       return;
     }
 
-    const forbiddenExtensions = document.querySelectorAll(".custom-extension-item span:first-child");
+    const forbiddenExtensions = document.querySelectorAll(
+        ".custom-extension-item span:first-child");
     const forbiddenNames = Array.from(forbiddenExtensions).map(element => element.innerText);
 
     if (forbiddenNames.includes(newType)) {
