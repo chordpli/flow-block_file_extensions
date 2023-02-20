@@ -22,7 +22,7 @@ public class S3FileUploadService {
   @Value("${cloud.aws.s3.bucket}")
   private String bucketName;
 
-  private String defaultUrl = "https://content-i-like.s3.ap-northeast-2.amazonaws.com/";
+  private String defaultUrl = "https://my-work-project.s3.ap-northeast-2.amazonaws.com/";
 
   public String uploadFile(MultipartFile file) throws IOException {
     String fileName = generateFileName(file);
