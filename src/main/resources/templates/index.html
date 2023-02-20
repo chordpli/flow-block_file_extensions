@@ -75,11 +75,11 @@
         </div>
         <div class="custom-extension-items">
           <div class="custom-extension-item" th:each="type:${forbiddenTypes}"
-               th:id="|custom-${type.getForbiddenName()}|">
+               th:id="|custom-${type.getForbiddenTypeName()}|">
             <span class="custom-extension-title" th:name="forbidden-name"
-                  th:text="${type.getForbiddenName()}"></span>
+                  th:text="${type.getForbiddenTypeName()()}"></span>
             <span class="custom-extension-delete-button"
-                  th:data-name="${type.getForbiddenName()}">X</span>
+                  th:data-name="${type.getForbiddenTypeName()}">X</span>
           </div>
         </div>
       </div>
