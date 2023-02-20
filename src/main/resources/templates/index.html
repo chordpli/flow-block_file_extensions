@@ -171,5 +171,12 @@
     event.preventDefault();
   });
 
+  if (countForbiddenSpan.textContent >= 200) {
+    addTypeInput.disabled = true;
+    addTypeBtn.disabled = true;
+  } else {
+    addTypeInput.disabled = false;
+    addTypeBtn.disabled = false;
+  }
 </script>
 </html>
