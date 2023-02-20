@@ -5,77 +5,159 @@
   <title>FLOW</title>
 
   <link rel="stylesheet" th:href="@{/css/index.css}">
+  <script src="https://code.jquery.com/jquery-3.6.3.js"
+          integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+          crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="container">
-
-  <div class="first-box"> <!-- 첫번째줄, column -->
-    <div class="fixed-extension-title">
-      고정 확장자
+  <form method="post" id="upload-form" th:action="@{/}" th:object="${request}" enctype="multipart/form-data">
+    <div class="first-box"> <!-- 첫번째줄, column -->
+      <div class="fixed-extension-title">
+        고정 확장자
+      </div>
+      <div class="fixed-extension-list"> <!--row로 주자.-->
+        <div>
+          <input class="fixed-extension-item" id="bat" type="checkbox" name="forbidden"
+                 value="bat">
+          <label for="bat">bat</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="cmd" type="checkbox" name="forbidden" value="cmd">
+          <label for="cmd">cmd</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="com" type="checkbox" name="forbidden" value="com">
+          <label for="com">com</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="cpl" type="checkbox" name="forbidden" value="cpl">
+          <label for="cpl">cpl</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="exe" type="checkbox" name="forbidden" value="exe">
+          <label for="exe">exe</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="scr" type="checkbox" name="forbidden" value="scr">
+          <label for="scr">scr</label>
+        </div>
+        <div>
+          <input class="fixed-extension-item" id="js" type="checkbox" name="forbidden" value="js">
+          <label for="js">js</label>
+        </div>
+      </div>
     </div>
-    <div class="fixed-extension-list"> <!--row로 주자.-->
-      <div>
-        <input class="fixed-extension-item" id="bat" type="checkbox" name="type">
-        <label for="bat">bat</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="cmd" type="checkbox" name="type">
-        <label for="cmd">cmd</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="com" type="checkbox" name="type">
-        <label for="com">com</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="cpl" type="checkbox" name="type">
-        <label for="cpl">cpl</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="exe" type="checkbox" name="type">
-        <label for="exe">exe</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="scr" type="checkbox" name="type">
-        <label for="scr">scr</label>
-      </div>
-      <div>
-        <input class="fixed-extension-item" id="js" type="checkbox" name="type">
-        <label for="js">js</label>
-      </div>
+    <div id="upload-file"> <!--파일 업로드-->
+      <input type="file" th:name="file">
+      <button id="upload-btn" type="submit">전송</button>
     </div>
-  </div>
+  </form>
 
   <div class="second-box"> <!--여긴 row로-->
     <div class="custom-extension-title">
       커스텀 확장자
     </div>
     <div class="inner-box">
-      <div class="custom-extension-add">
-        <input placeholder="확장자 입력"/>
-        <input type="button" value="+추가"/>
-      </div>
+      <form id="custom-extension-form" action="/forbidden?" method="post">
+        <div class="custom-extension-add">
+          <input id="add-type" maxlength="20" name="typeName" placeholder="확장자 입력"/>
+          <button id="add-type-btn" type="submit">+추가</button>
+        </div>
+      </form>
 
       <div class="custom-extension-list">
         <div class="custom-extension-count">
-          3/200
+          <span th:text="${countForbidden}"></span>
+          <span>/</span>
+          <span>200</span>
         </div>
-        <div class="custom-extension-items" >
-          <div class="custom-extension-item" th:each="type:${fileTypes}" th:id="|custom-${type.getTypeName()}|">
-            <span class="custom-extension-title" th:text="${type.getTypeName()}"></span>
-            <span class="custom-extension-delete-button">X</span>
+        <div class="custom-extension-items">
+          <div class="custom-extension-item" th:each="type:${forbiddenTypes}"
+               th:id="|custom-${type.getForbiddenName()}|">
+            <span class="custom-extension-title" th:name="forbidden-name" th:text="${type.getForbiddenName()}"></span>
+            <span class="custom-extension-delete-button" th:data-name="${type.getForbiddenName()}">X</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <form method="post" th:action="@{/}" th:object="${request}" enctype="multipart/form-data">
-    <div id="upload-file"> <!--파일 업로드-->
-      <input type="file" th:name="file">
-      <input type="button" value="전송">
-    </div>
-  </form>
-</div>
 
+</div>
 </body>
+<script>
+  const uploadForm = document.querySelector("#upload-btn");
+  uploadForm.addEventListener("click", event => {
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = fileInput.files[0];
+
+    if (file == null) {
+      alert("파일이 선택되지 않았습니다.");
+      return false;
+    }
+
+    const fileName = file.name;
+    const fileExtension = fileName.split('.').pop();
+
+    const forbiddenExtensions = [];
+    $('input:checkbox[name=forbidden]:checked').each(function() {
+      forbiddenExtensions.push($(this).val());
+    });
+    $('span[name=forbidden-name]').each(function() {
+      forbiddenExtensions.push($(this).text());
+    });
+
+    if (forbiddenExtensions.includes(fileExtension)) {
+      event.preventDefault();
+      alert(`'${fileExtension}'확장자는 업로드 할 수 없습니다.`);
+    }
+  });
+
+  const deleteButtons = document.querySelectorAll('.custom-extension-delete-button');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const forbiddenTypeName = button.getAttribute('data-name');
+      if (confirm(`${forbiddenTypeName} 확장자를 삭제하시겠습니까?`)) {
+        fetch(`/forbidden/delete/${forbiddenTypeName}`, {
+          method: 'POST',
+        }).then(response => {
+          if (response.ok) {
+            location.reload();
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    });
+  });
+
+  const customExtensionForm = document.querySelector("#custom-extension-form");
+  const addTypeInput = document.querySelector("#add-type");
+  const addTypeBtn = document.querySelector("#add-type-btn");
+  const countForbiddenSpan = document.querySelector(".custom-extension-count span:first-child");
+
+  addTypeBtn.addEventListener("click", event => {
+    const newType = addTypeInput.value.trim();
+
+    if (newType === "") {
+      alert("확장자를 입력해주세요.");
+      event.preventDefault();
+      return;
+    }
+
+    const forbiddenExtensions = document.querySelectorAll(".custom-extension-item span:first-child");
+    const forbiddenNames = Array.from(forbiddenExtensions).map(element => element.innerText);
+
+    if (forbiddenNames.includes(newType)) {
+      alert(`${newType} 확장자는 이미 등록되어 있습니다.`);
+    } else if (forbiddenNames.length >= 200) {
+      alert("커스텀 확장자는 최대 200개까지 등록할 수 있습니다.");
+    } else {
+      customExtensionForm.submit();
+    }
+    event.preventDefault();
+  });
+
+</script>
 </html>
