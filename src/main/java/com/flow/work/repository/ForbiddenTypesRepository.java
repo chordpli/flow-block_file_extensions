@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ForbiddenTypesRepository extends JpaRepository<ForbiddenTypes, Long> {
 
-  Optional<ForbiddenTypes> findByForbiddenName(String typeName);
+  Optional<ForbiddenTypes> findByForbiddenTypeName(String typeName);
 }

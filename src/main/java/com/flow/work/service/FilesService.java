@@ -41,7 +41,7 @@ public class FilesService {
   }
 
   private FileTypes validateFileTypesAndGet(String fileExtension) {
-    return fileTypeRepository.findByTypeName(fileExtension).orElseGet(
+    return fileTypeRepository.findByFileTypeName(fileExtension).orElseGet(
         () -> {
           FileTypes newFileTypes = FileTypes.of(fileExtension);
           fileTypeRepository.save(newFileTypes);
@@ -53,7 +53,7 @@ public class FilesService {
   private void checkForbiddenTypes(String fileExtension) {
     List<ForbiddenTypes> forbiddenTypes = forbiddenTypesRepository.findAll();
     for (ForbiddenTypes forbiddenType : forbiddenTypes) {
-      if (forbiddenType != null && fileExtension.equals(forbiddenType.getForbiddenName())) {
+      if (forbiddenType != null && fileExtension.equals(forbiddenType.getForbiddenTypeName())) {
         throw new RuntimeException();
       }
     }

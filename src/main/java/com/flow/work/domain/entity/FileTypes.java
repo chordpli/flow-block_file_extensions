@@ -20,11 +20,11 @@ public class FileTypes {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long fileTypeNo;
 
-  private String typeName;
+  private String fileTypeName;
 
   public static FileTypes of(String extension) {
     return FileTypes.builder()
-        .typeName(extension)
+        .fileTypeName(extension)
         .build();
   }
 }

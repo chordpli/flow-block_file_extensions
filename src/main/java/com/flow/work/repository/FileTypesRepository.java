@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FileTypesRepository extends JpaRepository<FileTypes, Long> {
 
-  Optional<FileTypes> findByTypeName(String extension);
+  Optional<FileTypes> findByFileTypeName(String extension);
 
   List<FileTypes> findAllByFileTypeNoAfter(Long fileTypeNo);
 }

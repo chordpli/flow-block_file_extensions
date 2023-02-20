@@ -22,7 +22,7 @@ public class FileTypesService {
   }
 
   public void deleteType(String extension) {
-    FileTypes fileType = fileTypesRepository.findByTypeName(extension)
+    FileTypes fileType = fileTypesRepository.findByFileTypeName(extension)
         .orElseThrow(()->{
           throw new RuntimeException();
         });

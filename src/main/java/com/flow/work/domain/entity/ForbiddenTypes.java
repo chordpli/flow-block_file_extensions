@@ -20,11 +20,11 @@ public class ForbiddenTypes {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long forbiddenTypeNo;
 
-  private String forbiddenName;
+  private String forbiddenTypeName;
 
   public static ForbiddenTypes of(String typeName) {
     return ForbiddenTypes.builder()
-        .forbiddenName(typeName)
+        .forbiddenTypeName(typeName)
         .build();
   }
 }

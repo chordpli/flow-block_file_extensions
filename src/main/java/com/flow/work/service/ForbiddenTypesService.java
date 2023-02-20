@@ -21,7 +21,7 @@ public class ForbiddenTypesService {
   }
 
   public void addType(String typeName) {
-    ForbiddenTypes forbiddenTypes = forbiddenTypesRepository.findByForbiddenName(typeName)
+    ForbiddenTypes forbiddenTypes = forbiddenTypesRepository.findByForbiddenTypeName(typeName)
         .orElseGet(
             () -> {
               ForbiddenTypes newForbiddenTypes = ForbiddenTypes.of(typeName);
@@ -32,7 +32,7 @@ public class ForbiddenTypesService {
   }
 
   public void deleteForbiddenType(String forbiddenTypeName) {
-    forbiddenTypesRepository.delete(forbiddenTypesRepository.findByForbiddenName(forbiddenTypeName)
+    forbiddenTypesRepository.delete(forbiddenTypesRepository.findByForbiddenTypeName(forbiddenTypeName)
         .orElseThrow(() -> {
           throw new RuntimeException();
         }));
