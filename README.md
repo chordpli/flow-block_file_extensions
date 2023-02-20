@@ -10,6 +10,5 @@
 - 개발 툴 : SpringBoot 2.7.8
 - 필수 라이브러리 : SpringBoot Web, MySQL, Spring Data JPA, Lombok, Spring Security, Spring Cloud Starter, Thymeleaf
 - 빌드 : Gradle 7.6
-- DB : MySql
-- CLOUD : AWS EC2, AWS RDS, AWS S3
-- CI/CD : Docker, GitLab
+- DB : AWS RDS
+- Devops : AWS EC2, AWS S3, Docker
